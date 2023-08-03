@@ -18,7 +18,7 @@ public class NameTag : MonoBehaviourPunCallbacks {
         if (photonView.IsMine) {
             photonView.RPC("SetName", RpcTarget.All, PhotonNetwork.NickName);
         } else {
-            SetName(photonView.Owner.NickName);
+            SetName("DefaultPlayer");
         }
     }
 

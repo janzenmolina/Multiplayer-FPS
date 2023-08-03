@@ -61,7 +61,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     /// </summary>
     /// <param name="cause">DisconnectCause data associated with this disconnect.</param>
     public override void OnDisconnected(DisconnectCause cause) {
-        connectionText.text = cause.ToString();
+        // connectionText.text = cause.ToString();
     }
 
     /// <summary>
