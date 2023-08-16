@@ -14,18 +14,58 @@ public class ParticleSystemManager : MonoBehaviourPunCallbacks
 
     private Slider vaSlider;
     private Image vaEmoji;
-    
+
+    public static float acc;
+    public static float bvp;
+    public static float gsr;
+    public static float ibi;
+    public static float hr;
+    public static float tmp;
 
     void Start()
     {
-        vaEmoji = GameObject.Find("VAHandle").GetComponent<Image>();
+        vaEmoji = GameObject.Find("VAEmoji").GetComponent<Image>();
         vaSlider = GameObject.Find("VASlider").GetComponent<Slider>();
-        InvokeRepeating("ChangeSliderValue", 5.0f, 5.0f);
     }
 
     void Update()
     {  
-
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {   
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+            ChangeSliderValue("excited");
+            }
+            else if (Input.GetKey(KeyCode.Space))
+            {
+            ChangeSliderValue("delighted");
+            }
+            else if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                ChangeSliderValue("content");
+            } 
+            else
+            {
+                ChangeSliderValue("calm");
+            }
+            
+        }
+        else if (Input.GetKey(KeyCode.Space))
+        {
+            ChangeSliderValue("delighted");
+        }
+        else if (Input.GetKey(KeyCode.Mouse0))
+        {
+            ChangeSliderValue("excited");
+        }
+        else if (!Input.anyKey)
+        {
+            ChangeSliderValue("sleepy");
+        } 
+        else
+        {
+            ChangeSliderValue("content");
+        }
     }
 
     void ChangeColor(float newValue) 
@@ -90,6 +130,40 @@ public class ParticleSystemManager : MonoBehaviourPunCallbacks
     void ChangeSliderValue(float newValue)
     {
         vaSlider.value = newValue;
+        ChangeColor(vaSlider.value);
+        ChangeEmoji();
+    }
+
+    void ChangeSliderValue(string state)
+    {
+        switch (state)
+        {
+            case "sleepy":
+            // vaSlider.value = Random.Range(-1.0f, -0.6f);
+            vaSlider.value = -0.8f;
+            break;
+            case "calm":
+            // vaSlider.value = Random.Range(-0.6f, -0.2f);
+            vaSlider.value = -0.4f;
+            break;
+            case "content":
+            // vaSlider.value = Random.Range(-0.2f, 0.2f);
+            vaSlider.value = 0f;
+            break;
+            case "delighted":
+            // vaSlider.value = Random.Range(0.2f, 0.6f);
+            vaSlider.value = 0.4f;
+            break;
+            case "excited":
+            // vaSlider.value = Random.Range(0.6f, 1.0f);
+            vaSlider.value = 0.8f;
+            break;
+            default:
+            // vaSlider.value = Random.Range(-0.2f, 0.2f);
+            vaSlider.value = 0f;
+            break;
+        }
+
         ChangeColor(vaSlider.value);
         ChangeEmoji();
     }

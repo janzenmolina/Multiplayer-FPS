@@ -6,24 +6,24 @@ using Photon.Pun;
 public class PlayerScore : MonoBehaviourPunCallbacks
 {
 
-    [SerializeField]
-    private Transform container;
-    [SerializeField]
-    private GameObject scoreboardItemPrefab;
+    // [SerializeField]
+    // private Transform container;
+    // [SerializeField]
+    // private GameObject scoreboardItemPrefab;
 
-    void Start()
-    {
-        foreach(Player player in PhotonNetwork.PlayerList)
-        {
-            AddScoreboardItem(player);
-        }
-    }
+    // void Start()
+    // {
+    //     foreach(Player player in PhotonNetwork.PlayerList)
+    //     {
+    //         AddScoreboardItem(player);
+    //     }
+    // }
 
-    void AddScoreboardItem(Player player)
-    {
-        ScoreboardItem item = Instantiate(scoreboardItemPrefab, container).GetComponent<ScoreboardItem>();
-        item.Initialize(player);
-    }
+    // void AddScoreboardItem()
+    // {
+    //     ScoreboardItem item = Instantiate(scoreboardItemPrefab, container).GetComponent<ScoreboardItem>();
+    //     item.Initialize(player);
+    // }
 
 
 

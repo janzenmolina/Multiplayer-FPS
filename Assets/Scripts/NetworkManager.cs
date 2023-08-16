@@ -29,7 +29,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     private InputField roomList;
     [SerializeField]
     private InputField messagesLog;
+    [SerializeField]
+    private Transform container;
+    [SerializeField]
+    private GameObject scoreboardItemPrefab;
 
+    Dictionary<Player, ScoreboardItem> scoreboardItems = new Dictionary<Player, ScoreboardItem>();
     private GameObject player;
     private Queue<string> messages;
     private const int messageCount = 10;
@@ -47,6 +52,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
         connectionText.text = "Connecting to lobby...";
+        
+        foreach(Player player in PhotonNetwork.PlayerList)
+        {
+            AddScoreboardItem(player);
+        }
     }
 
     /// <summary>
@@ -168,10 +178,30 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         }
     }
 
+    void AddScoreboardItem(Player player)
+    {
+        ScoreboardItem item = Instantiate(scoreboardItemPrefab, container).GetComponent<ScoreboardItem>();
+        item.Initialize(player);
+        scoreboardItems[player] = item;
+    }
+
+    void RemoveScoreboardItem(Player player)
+    {
+        Destroy(scoreboardItems[player].gameObject);
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer) 
+    {
+        AddScoreboardItem(newPlayer);
+    }
+
     /// <summary>
     /// Callback function when other player disconnected.
     /// </summary>
-    public override void OnPlayerLeftRoom(Player other) {
+    public override void OnPlayerLeftRoom(Player other) 
+    {
+        RemoveScoreboardItem(other);
+
         if (PhotonNetwork.IsMasterClient) {
             AddMessage("Player " + other.NickName + " Left Game.");
         }
