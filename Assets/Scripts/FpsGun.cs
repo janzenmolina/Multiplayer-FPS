@@ -47,7 +47,7 @@ public class FpsGun : MonoBehaviour {
     /// <summary>
     /// Shoot once, this also calls RPCShoot for third person view gun.
     /// <summary>
-    void Shoot() {
+    public void Shoot() {
         timer = 0.0f;
         gunLine.enabled = true;
         StartCoroutine(DisableShootingEffect());
@@ -63,6 +63,12 @@ public class FpsGun : MonoBehaviour {
             switch (hitTag) {
                 case "Player":
                     shootHit.collider.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, damagePerShot, PhotonNetwork.LocalPlayer.NickName);
+                    PhotonNetwork.Instantiate("impactFlesh", shootHit.point, Quaternion.Euler(shootHit.normal.x - 90, shootHit.normal.y, shootHit.normal.z), 0);
+                    break;
+                case "AI":
+                    Debug.Log(shootHit);
+                    Debug.Log(shootHit.collider);
+                    shootHit.collider.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, damagePerShot);
                     PhotonNetwork.Instantiate("impactFlesh", shootHit.point, Quaternion.Euler(shootHit.normal.x - 90, shootHit.normal.y, shootHit.normal.z), 0);
                     break;
                 default:
